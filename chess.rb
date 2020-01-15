@@ -11,10 +11,21 @@ require './player.rb'
 
 class Chess
   def initialization
+    menu
     player_setup
     @board = Board.new
     @board.draw
   end
+  def menu
+    #option to start new game
+    #
+    #option to load PGN
+    puts "Please enter filename to load: "
+    #filename = gets.chomp
+    filename = PGN_sample.txt
+    import_game(filename)
+  end
+
   def player_setup
     @p_white = Player.new("White")
     @p_black = Player.new("Black")
@@ -42,6 +53,15 @@ class Chess
     move = gets 
   end
   def check_legal?(move)
+  end
+
+  def import_game(filename='PGN_sample.txt')
+    File.open(filename) do |f|
+    
+    end
+
+  end
+
 
 
   
