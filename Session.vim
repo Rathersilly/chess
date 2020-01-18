@@ -10,6 +10,7 @@ set shortmess=aoO
 badd +1 chess.rb
 badd +1 board.rb
 badd +1 piece.rb
+badd +0 game.rb
 argglobal
 silent! argdel *
 $argadd chess.rb
@@ -31,12 +32,35 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 32) / 65)
+let s:l = 75 - ((57 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 034|
+75
+normal! 07|
+tabedit game.rb
+set splitbelow splitright
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 31 - ((30 * winheight(0) + 32) / 65)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+31
+normal! 015|
 tabedit board.rb
 set splitbelow splitright
 wincmd t
@@ -54,11 +78,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 6 - ((5 * winheight(0) + 32) / 65)
+let s:l = 40 - ((39 * winheight(0) + 32) / 65)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-6
+40
 normal! 03|
 tabedit piece.rb
 set splitbelow splitright
