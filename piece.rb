@@ -1,21 +1,27 @@
 # frozen_string_literal: true
 
-$sym_hash = { wKing: "\u2654", bKing: "\u265A",
-              wQueen: "\u2655", bQueen: "\u265B",
-              wRook: "\u2656", bRook: "\u265C",
-              wBishop: "\u2657", bBishop: "\u265D",
-              wKnight: "\u2658", bKnight: "\u265E",
-              wPawn: "\u2659", bPawn: "\u265F",
-              free: ' ' }
+SYM_HASH = { wKing: "\u2654", bKing: "\u265A",
+             wQueen: "\u2655", bQueen: "\u265B",
+             wRook: "\u2656", bRook: "\u265C",
+             wBishop: "\u2657", bBishop: "\u265D",
+             wKnight: "\u2658", bKnight: "\u265E",
+             wPawn: "\u2659", bPawn: "\u265F",
+             free: ' ' }.freeze
 
 class Piece
   attr_accessor :type, :color, :symbol, :position, :kills
 
   def initialize(type, position)
+    @type = type
     @name = type.to_s
-    @symbol = $sym_hash[type]
+    @symbol = SYM_HASH[type]
     @position = position
     @kills = 0
+    @color = if @name.start_with?('b')
+               :black
+             else
+               :white
+             end
   end
 end
 

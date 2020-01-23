@@ -13,7 +13,7 @@ fresh_board = [
   Array.new(8) { :bPawn },
   %i[bRook bKnight bBishop bQueen bKing bBishop bKnight bRook]
 ]
-FRESH_BOARD_HASH = {}.freeze
+FRESH_BOARD_HASH = Hash.new
 (1..8).each_with_index do |num, x|
   ('a'..'h').each_with_index do |let, y|
     pos = (let + num.to_s).to_sym
@@ -21,13 +21,13 @@ FRESH_BOARD_HASH = {}.freeze
     # FRESH_BOARD_HASH[pos] = {piece: fresh_board[x][y], pos:$pos_hash[fresh_board[x][y]]}
   end
 end
-p FRESH_BOARD_HASH
 
 class Board
+  attr_accessor :grid
   def initialize
     @grid = FRESH_BOARD_HASH.dup
     # p @grid
-    draw
+    # draw
   end
 
   def setup_board
@@ -39,12 +39,11 @@ class Board
       ('a'..'h').each do |let|
         pos = (let + num.to_s).to_sym
         if count.even?
-          # white background
-
-          print @grid[pos].symbol.to_s.on_light_black
+          # light background
+          print @grid[pos].symbol.on_light_black
         else
           # dark background
-          print @grid[pos].symbol.to_s.on_black
+          print @grid[pos].symbol.on_black
         end
         count += 1
       end
@@ -54,17 +53,23 @@ class Board
   end
 
   def each
-    8.times do |row|
-      8.times do |col|
-        yield grid[row, col]
+    (1..8).each do |num|
+      ('a'..'h').each do |let|
+        pos = (let + num.to_s).to_sym
+        yield @grid[pos]
       end
     end
   end
 
   def [](pos)
+    @grid[pos.to_sym].symbol
     # take algebraic board position
     # return array  symbol
   end
 end
 
-Board.new
+if $0 == __FILE__
+  b = Board.new
+  puts b[:e1]
+end
+
