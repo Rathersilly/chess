@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'colorize'
 
 # TODO get pgn comments
 class Game
@@ -29,5 +30,5 @@ class Game
 end
 
 g = Game.new('PGN_Sample.txt')
-p g
-p g.moves
+puts g.inspect.green
+puts g.moves.to_s.blue

@@ -11,7 +11,11 @@ $sym_hash = { wKing: "\u2654", bKing: "\u265A",
 class Piece
   attr_accessor :type, :color, :symbol, :position, :kills
 
-  def initialization
+  def initialize(type, position)
+    @name = type.to_s
+    @symbol = $sym_hash[type]
+    @position = position
+    @kills = 0
   end
 end
 

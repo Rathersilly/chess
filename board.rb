@@ -27,6 +27,7 @@ class Board
   def setup_board
   end
 
+
   def draw
     8.times do |row|
       8.times do |col|
@@ -41,6 +42,14 @@ class Board
       puts
     end
   end
+  def each
+    8.times do |row|
+      8.times do|col|
+        yield grid[row,col]
+      end
+    end
+  end
+
 
   def [](pos)
     # take algebraic board position
