@@ -12,8 +12,10 @@ require './game.rb'
 require 'colorize'
 
 class Chess
+  attr_accessor :board, :p_white, :p_black, :test_turns
   def initialize
     # player_setup
+    @test_turns = 1
     @board = Board.new
     @board.draw
     menu
@@ -21,13 +23,16 @@ class Chess
 
   def menu
     # option to start new game
-    #
+    puts "IN MENU"
     # option to load PGN
-    puts 'Please enter filename to load: '
+    #puts 'Please enter filename to load: '
     # filename = gets.chomp
     filename = 'PGN_Sample.txt'
     @game = Game.new(filename)
+    @p_white = @game.p_white
+    @p_black = @game.p_black
     game_loop
+    puts "------------------GAME OVER----------------".light_red
   end
 
   def player_setup
@@ -38,19 +43,19 @@ class Chess
   def game_loop
     turn = 1
     # @game.moves is an array of 2-size arrays representing each move
-    puts turn.to_s.red
-    10.times do
+    @test_turns.times do
+      print "TURN #{turn}: ".light_blue
       current_move = @game.moves[turn - 1][0]
       take_turn(@game.p_white, current_move)
 
       current_move = @game.moves[turn - 1][1]
-      take_turn(@game.p_black, current_move)
+      #take_turn(@game.p_black, current_move)
       turn += 1
     end
   end
 
   def take_turn(player, move)
-    print "#{player}'s turn.\n"
+    print "#{player}'s turn.\n".light_blue
     # print 'Enter move: '
 
     # move = gets
@@ -59,19 +64,28 @@ class Chess
     move_piece(player, move)
   end
 
-  def move_piece(player, move)
-    #puts @board.inspect.green
-    p move
-    sleep 0.1
+  def move_piece(_player, move)
+    # puts @board.inspect.green
+    puts "IN MOVE_PIECE"
+    move = move.to_sym
     case move
-    when /([a-g])\d/ # move pawn
+    when /^([a-g])(\d)/ # move pawn
       # find available squares
       # if white, find piece 1 or 2 squares smaller rank
-       
-      
-      piece = @board.grid.select{|k,v| k.match?($1)}
+      if player = @p_white
+        file = Regexp.last_match(1)
+        rank = Regexp.last_match(2)
+        (1..rank.to_i).reverse_each do |i|
+          next unless board.grid[(Regexp.last_match(1) + i.to_s).to_sym].type == :wPawn
+
+          board.grid[move], board.grid[(Regexp.last_match(1) + i.to_s).to_sym] = board.grid[(Regexp.last_match(1) + i.to_s).to_sym], board.grid[move]
+          puts "moving #{(Regexp.last_match(1) + i.to_s).to_sym} to #{move}".yellow
+          break
+        end
+        @board.draw
+      end
+
       # if black
-      piece = @board.grid.select{|k,v| k.match?($1)}
 
       # check column for pieces of same color, check if they have this as a legal move
       # $1
@@ -91,4 +105,4 @@ class Chess
   def legal?(move)
   end
 end
-Chess.new
+#Chess.new

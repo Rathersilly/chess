@@ -30,5 +30,5 @@ class Game
 end
 
 g = Game.new('PGN_Sample.txt')
-puts g.inspect.green
-puts g.moves.to_s.blue
+#puts g.inspect.green
+#puts g.moves.to_s.blue

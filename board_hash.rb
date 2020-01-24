@@ -35,7 +35,7 @@ class Board
 
   def draw
     count = 0
-    (1..8).each do |num|
+    (1..8).reverse_each do |num|
       ('a'..'h').each do |let|
         pos = (let + num.to_s).to_sym
         if count.even?
@@ -62,8 +62,8 @@ class Board
   end
 
   def [](pos)
-    @grid[pos.to_sym].symbol
-    # take algebraic board position
+    @grid[pos]
+    # take algebraic board posgtion
     # return array  symbol
   end
 end
