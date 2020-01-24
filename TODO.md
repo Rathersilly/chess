@@ -25,3 +25,7 @@ OK so what does board hash look like?
     new square when it moves. this allows you to track individual
     pieces (rank, kills, dlc armor, etc)
 
+# move piece method
+
+this will feel so good to refactor - probably with procs or exec
+or something
