@@ -18,6 +18,7 @@ class Game
     @p_black = @pgn.match(/Black "(.*)?"/)[1]
     @result = @pgn.match(/Result "(.*)?"/)[1]
     @moves = @pgn.scan(/\d\.\s+(\w+)\s+([-\w]+)/)
+    # p @moves
   end
 
   def import_game(filename = 'PGN_Sample.txt')
@@ -29,6 +30,6 @@ class Game
 
 end
 
-g = Game.new('PGN_Sample.txt')
+#g = Game.new('PGN_Sample.txt')
 #puts g.inspect.green
 #puts g.moves.to_s.blue

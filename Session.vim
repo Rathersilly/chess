@@ -9,14 +9,15 @@ endif
 set shortmess=aoO
 badd +1 chess.rb
 badd +40 board.rb
-badd +1 piece.rb
+badd +3 piece.rb
 badd +1 game.rb
 badd +1 board_hash.rb
 badd +1 spec/chess_spec.rb
 badd +1 spec/board_spec.rb
 badd +1 regextest.rb
+badd +0 move.rb
 argglobal
-silent! argdel *
+%argdel
 $argadd chess.rb
 set stal=2
 edit chess.rb
@@ -36,12 +37,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 94 - ((39 * winheight(0) + 32) / 65)
+let s:l = 85 - ((51 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-94
-normal! 0
+85
+normal! 09|
 tabedit spec/chess_spec.rb
 set splitbelow splitright
 wincmd t
@@ -59,12 +60,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 14 - ((13 * winheight(0) + 32) / 65)
+let s:l = 22 - ((21 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-14
-normal! 05|
+22
+normal! 07|
 tabedit spec/board_spec.rb
 set splitbelow splitright
 wincmd t
@@ -82,12 +83,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 8 - ((7 * winheight(0) + 32) / 65)
+let s:l = 1 - ((0 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-8
-normal! 09|
+1
+normal! 011|
 tabedit board_hash.rb
 set splitbelow splitright
 wincmd t
@@ -105,12 +106,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 45 - ((44 * winheight(0) + 32) / 65)
+let s:l = 45 - ((17 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 45
-normal! 027|
+normal! 08|
 tabedit game.rb
 set splitbelow splitright
 wincmd t
@@ -128,13 +129,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 30 - ((29 * winheight(0) + 32) / 65)
+let s:l = 30 - ((23 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 30
 normal! 0
-tabedit piece.rb
+tabedit move.rb
 set splitbelow splitright
 wincmd t
 set winminheight=0
@@ -151,13 +152,13 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 32) / 65)
+let s:l = 1 - ((0 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
+1
 normal! 0
-tabnext 2
+tabnext 6
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

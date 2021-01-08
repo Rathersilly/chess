@@ -1,4 +1,4 @@
-require 'board.rb'
+require './board.rb'
 describe Board do
   context 'each method can find squares with certain pieces' do
     it 'returns squares that contain pawns' do

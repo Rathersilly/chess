@@ -5,14 +5,16 @@
 # or possibly include it in a game class which contains
 # list of moves, players, date, etc
 
-require './board_hash.rb'
-require './piece.rb'
-require './player.rb'
-require './game.rb'
+require './board_hash'
+require './piece'
+require './player'
+require './game'
 require 'colorize'
+require './move'
 
 class Chess
   attr_accessor :board, :p_white, :p_black, :test_turns, :game
+
   def initialize
     # player_setup
     @test_turns = 3
@@ -23,16 +25,16 @@ class Chess
 
   def menu
     # option to start new game
-    puts "IN MENU"
+    # puts 'IN MENU'
     # option to load PGN
-    #puts 'Please enter filename to load: '
+    # puts 'Please enter filename to load: '
     # filename = gets.chomp
     filename = 'PGN_Sample.txt'
     @game = Game.new(filename)
     @p_white = @game.p_white
     @p_black = @game.p_black
     game_loop
-    puts "------------------GAME OVER----------------".light_red
+    puts '------------------GAME OVER----------------'.light_red
   end
 
   def player_setup
@@ -54,50 +56,72 @@ class Chess
     end
   end
 
-  def take_turn(player, move)
+  def take_turn(player, move = nil)
+    # if move=nil (the default) means player actually plays - not from pgn
     print "#{player}'s turn. -> ".light_blue
     # print 'Enter move: '
 
     # move = gets
     # check legal move? move proper piece, update @board.grid, draw board
+    #
     # something if legal?(move)
+    #print "\e[5;1H" 
+    print "Current Move: #{player}, #{move}"
     move_piece(player, move)
   end
 
   def move_piece(player, move)
     # puts @board.inspect.green
     puts move.to_s.light_blue
-    print "IN MOVE_PIECE #{player}: "
+    #print "IN MOVE_PIECE: #{player}: "
 
     move = move.to_sym
     case move
     when /^([a-g])(\d)/ # move pawn
-      puts "PAWN"
+      #puts '*******************'
+      #puts 'MOVING PAWN'
       file = Regexp.last_match(1)
       rank = Regexp.last_match(2)
-      new_square = nil
-      if player == @p_white
-        puts "sup"
-        (1..rank.to_i).reverse_each do |i|
-          new_square = (file + i.to_s).to_sym
-          next unless board.grid[new_square].type == :wPawn
+      new_square = (file + rank).to_sym
 
-          board.grid[move], board.grid[new_square] = board.grid[new_square], board.grid[move]
-          puts "moving #{new_square} to #{move}".yellow
-          break
+      old_square = nil
+      # find old square, empty it, fill new square, capture if necessary
+      # check ranks 1 then 2 less than new_square for a pawn
+      if player == @p_white
+        (1..2).each do |i|
+          old_rank = (rank.ord - i).chr
+          p old_rank
+          old_square = (file + old_rank).to_sym
+          p old_square
+          puts board[new_square].to_s.green
+          puts board[new_square].type.to_s.red
+          puts board[old_square].to_s.green
+          puts board[old_square].type.to_s.red
+          gets
+          if board[old_square].type == :wPawn
+            temp = board[new_square]
+            board[new_square] = board[old_square]
+            board[old_square] = temp
+            break
+          end
+
         end
-        @board.draw
+        puts board[new_square].to_s.red
+        puts board[old_square].to_s.red
+
+        puts "moving #{old_square} to #{move}".yellow
+        gets
       end
       if player == @p_black
         (rank.to_i..8).each do |i|
-          new_square = (file + i.to_s).to_sym
-          next unless board.grid[new_square].type == :bPawn
+          old_square = (file + i.to_s).to_sym
+          next unless board.grid[old_square].type == :bPawn
 
-          board.grid[move], board.grid[new_square] = board.grid[new_square], board.grid[move]
-          puts "moving #{new_square} to #{move}".yellow
+          board.grid[move], board.grid[old_square] = board.grid[old_square], board.grid[move]
+          puts "moving #{old_square} to #{move}".yellow
           break
         end
-        @board.draw
+        #@board.draw
       end
 
       # if black
@@ -107,15 +131,15 @@ class Chess
     when /([a-g])x([a-g]\d)/ # pawn captures
       # $1, $2
     when /(B\d?)([a-g]\d)/ # Bishop moves
-      puts "BISHOP"
+      puts 'BISHOP'
       file = Regexp.last_match(1)
       rank = Regexp.last_match(2)
     when /(N\d?)([a-g]\d)/ # Knight moves
-      puts "KNIGHT"
+      puts 'KNIGHT'
       file = Regexp.last_match(1)
       rank = Regexp.last_match(2)
-      #possible squares: up/down = 1/2 or 2/1
-      
+      # possible squares: up/down = 1/2 or 2/1
+
     when /(R\d?)([a-g]\d)/ # Rook moves
     when /(Q\d?)([a-g]\d)/ # Queen moves
     when /(K\d?)([a-g]\d)/ # King moves
@@ -123,9 +147,9 @@ class Chess
     when /O-O/ # kingside castles
     when /O-O-O/ # queenside castles
     end
+    @board.draw
   end
 
-  def legal?(move)
-  end
+  def legal?(move); end
 end
 Chess.new

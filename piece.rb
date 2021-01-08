@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+
 SYM_HASH = { wKing: "\u2654", bKing: "\u265A",
              wQueen: "\u2655", bQueen: "\u265B",
              wRook: "\u2656", bRook: "\u265C",

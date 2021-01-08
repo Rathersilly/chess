@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'colorize'
-require './piece.rb'
+require './piece'
 
 fresh_board = [
   %i[wRook wKnight wBishop wQueen wKing wBishop wKnight wRook],
@@ -24,20 +24,33 @@ end
 
 class Board
   attr_accessor :grid
+
   def initialize
     @grid = FRESH_BOARD_HASH.dup
     # p @grid
     # draw
   end
 
-  def setup_board
+  def setup_board; end
+
+  def [](square)
+    grid[square.to_sym]
+  end
+
+  def []=(square, piece)
+    @grid[square.to_sym] = piece
   end
 
   def draw
+    gets
+    #sleep 1
+    system "clear"
+    print "\e[10;1H"
     count = 0
     (1..8).reverse_each do |num|
       ('a'..'h').each do |let|
         pos = (let + num.to_s).to_sym
+        #puts "position = #{pos}"
         if count.even?
           # light background
           print @grid[pos].symbol.on_light_black
@@ -50,6 +63,7 @@ class Board
       count += 1
       puts
     end
+    print "\e[20;1H"
   end
 
   def each
@@ -72,4 +86,3 @@ if $0 == __FILE__
   b = Board.new
   puts b[:e1]
 end
-
