@@ -66,7 +66,7 @@ class Chess
     # check legal move? move proper piece, update @board.grid, draw board
     #
     # something if legal?(move)
-    #print "\e[5;1H" 
+    # print "\e[5;1H"
     print "Current Move: #{player}, #{move}"
     move_piece(player, move)
   end
@@ -74,67 +74,72 @@ class Chess
   def move_piece(player, move)
     # puts @board.inspect.green
     puts move.to_s.light_blue
-    #print "IN MOVE_PIECE: #{player}: "
+    # print "IN MOVE_PIECE: #{player}: "
 
     move = move.to_sym
-    case move
-    when /^([a-g])(\d)/ # move pawn
-      #puts '*******************'
-      #puts 'MOVING PAWN'
-      file = Regexp.last_match(1)
-      rank = Regexp.last_match(2)
-      new_square = (file + rank).to_sym
-
-      old_square = nil
+    mbits = move.match(/^([A-Z]?)([a-z0-9]?)(x?)([a-g]\d)/)
+    piece = mbits[1]
+    specifier = mbits[2]
+    captures = mbits[3]
+    square = mbits[4]
+    file = square[0]
+    rank = square[1]
+    old_square = nil
+    case piece
+    when '' # move pawn
+      square = square.to_sym
       # find old square, empty it, fill new square, capture if necessary
       # check ranks 1 then 2 less than new_square for a pawn
       if player == @p_white
         (1..2).each do |i|
           old_rank = (rank.ord - i).chr
-          p old_rank
           old_square = (file + old_rank).to_sym
-          p old_square
-          puts board[new_square].to_s.green
-          puts board[new_square].type.to_s.red
-          puts board[old_square].to_s.green
-          puts board[old_square].type.to_s.red
-          #gets
-          if board[old_square].type == :wPawn
-            temp = board[new_square]
-            board[new_square] = board[old_square]
-            board[old_square] = temp
-            break
-          end
-
+          break if board[old_square].type == :wPawn
         end
-        puts board[new_square].to_s.red
-        puts board[old_square].to_s.red
-
-        puts "moving #{old_square} to #{move}".yellow
-        # gets
+      elsif player == @p_black
+        (1..2).each do |i|
+          old_rank = (rank.ord + i).chr
+          old_square = (file + old_rank).to_sym
+          break if board[old_square].type == :bPawn
+        end
       end
-      if player == @p_black
-        (rank.to_i..8).each do |i|
-          old_square = (file + i.to_s).to_sym
-          next unless board.grid[old_square].type == :bPawn
+      puts "moving #{old_square} to #{square}".yellow
+      temp = board[square]
+      board[square] = board[old_square]
+      board[old_square] = temp
 
-          board.grid[move], board.grid[old_square] = board.grid[old_square], board.grid[move]
-          puts "moving #{old_square} to #{move}".yellow
+    when /([a-g])x([a-g]\d)/ # pawn captures
+    when 'B' # Bishop moves
+      puts 'BISHOP'
+      # iterate through possible squares
+      # check ++, +-, -+,--
+
+      # +-
+      bishops = []
+      test_square = nil
+
+      (1..8).each do |i|
+        test_square = (file.ord + i).chr + (rank.ord - i).chr
+        p test_square
+        break unless test_square[0] =~ /[a-g]/ && test_square[1] =~ /[1-8]/
+
+        if board[test_square].type == :wBishop
+          bishops << test_square
+        elsif board[test_square].type == :free
+          next
+        else
           break
         end
-        #@board.draw
+        #next unless board[test_square].type == :wBishop
       end
+        old_square = test_square
+      # bishops = []
+      old_square = bishops[0]
+      puts "moving #{old_square} to #{square}".yellow
+      temp = board[square]
+      board[square] = board[old_square]
+      board[old_square] = temp
 
-      # if black
-
-      # check column for pieces of same color, check if they have this as a legal move
-      # $1
-    when /([a-g])x([a-g]\d)/ # pawn captures
-      # $1, $2
-    when /(B\d?)([a-g]\d)/ # Bishop moves
-      puts 'BISHOP'
-      file = Regexp.last_match(1)
-      rank = Regexp.last_match(2)
     when /(N\d?)([a-g]\d)/ # Knight moves
       puts 'KNIGHT'
       file = Regexp.last_match(1)
@@ -148,6 +153,7 @@ class Chess
     when /O-O/ # kingside castles
     when /O-O-O/ # queenside castles
     end
+
     @board.draw
   end
 

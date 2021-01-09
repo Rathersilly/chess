@@ -34,7 +34,7 @@ class Board
   def setup_board; end
 
   def [](square)
-    grid[square.to_sym]
+    @grid[square.to_sym]
   end
 
   def []=(square, piece)
@@ -42,8 +42,8 @@ class Board
   end
 
   def draw
-    # gets
-    sleep 1
+    gets
+    # sleep 1
     system "clear"
     print "\e[10;1H"
     count = 0
@@ -75,11 +75,6 @@ class Board
     end
   end
 
-  def [](pos)
-    @grid[pos]
-    # take algebraic board posgtion
-    # return array  symbol
-  end
 end
 
 if $0 == __FILE__
