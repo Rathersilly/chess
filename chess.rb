@@ -34,6 +34,7 @@ class Chess
     @p_white = @game.p_white
     @p_black = @game.p_black
     game_loop
+    p @board
     puts '------------------GAME OVER----------------'.light_red
   end
 
@@ -97,7 +98,7 @@ class Chess
           puts board[new_square].type.to_s.red
           puts board[old_square].to_s.green
           puts board[old_square].type.to_s.red
-          gets
+          #gets
           if board[old_square].type == :wPawn
             temp = board[new_square]
             board[new_square] = board[old_square]
@@ -110,7 +111,7 @@ class Chess
         puts board[old_square].to_s.red
 
         puts "moving #{old_square} to #{move}".yellow
-        gets
+        # gets
       end
       if player == @p_black
         (rank.to_i..8).each do |i|

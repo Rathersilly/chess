@@ -9,13 +9,13 @@ endif
 set shortmess=aoO
 badd +1 chess.rb
 badd +40 board.rb
-badd +3 piece.rb
+badd +19 piece.rb
 badd +1 game.rb
 badd +1 board_hash.rb
 badd +1 spec/chess_spec.rb
 badd +1 spec/board_spec.rb
 badd +1 regextest.rb
-badd +0 move.rb
+badd +1 move.rb
 argglobal
 %argdel
 $argadd chess.rb
@@ -37,12 +37,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 85 - ((51 * winheight(0) + 26) / 52)
+let s:l = 31 - ((30 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-85
-normal! 09|
+31
+normal! 012|
 tabedit spec/chess_spec.rb
 set splitbelow splitright
 wincmd t
@@ -135,30 +135,7 @@ exe s:l
 normal! zt
 30
 normal! 0
-tabedit move.rb
-set splitbelow splitright
-wincmd t
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 26) / 52)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-1
-normal! 0
-tabnext 6
+tabnext 1
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

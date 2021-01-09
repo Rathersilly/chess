@@ -14,11 +14,11 @@ class Piece
 
   def initialize(type, position)
     @type = type
-    @name = type.to_s
+    #@name = type.to_s
     @symbol = SYM_HASH[type]
-    @position = position
-    @kills = 0
-    @color = if @name.start_with?('b')
+    # @position = position
+    #@kills = 0
+    @color = if @type.start_with?('b')
                :black
              else
                :white

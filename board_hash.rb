@@ -42,8 +42,8 @@ class Board
   end
 
   def draw
-    gets
-    #sleep 1
+    # gets
+    sleep 1
     system "clear"
     print "\e[10;1H"
     count = 0
