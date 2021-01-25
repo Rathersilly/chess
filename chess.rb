@@ -5,7 +5,7 @@
 # or possibly include it in a game class which contains
 # list of moves, players, date, etc
 
-require './board_hash'
+require './board'
 require './piece'
 require './player'
 require './game'
@@ -17,7 +17,7 @@ class Chess
 
   def initialize
     # player_setup
-    @test_turns = 3
+    @test_turns = 5
     @board = Board.new
     @board.draw
     menu
@@ -34,7 +34,7 @@ class Chess
     @p_white = @game.p_white
     @p_black = @game.p_black
     game_loop
-    p @board
+    # p @board
     puts '------------------GAME OVER----------------'.light_red
   end
 
@@ -51,6 +51,7 @@ class Chess
       current_move = @game.moves[turn - 1][0]
       take_turn(@game.p_white, current_move)
 
+      print "TURN #{turn}: ".light_blue
       current_move = @game.moves[turn - 1][1]
       take_turn(@game.p_black, current_move)
       turn += 1
@@ -59,7 +60,7 @@ class Chess
 
   def take_turn(player, move = nil)
     # if move=nil (the default) means player actually plays - not from pgn
-    print "#{player}'s turn. -> ".light_blue
+    # print "#{player}'s turn. -> ".light_blue
     # print 'Enter move: '
 
     # move = gets
@@ -67,7 +68,7 @@ class Chess
     #
     # something if legal?(move)
     # print "\e[5;1H"
-    print "Current Move: #{player}, #{move}"
+    print "Current Move: #{player}, #{move}  "
     move_piece(player, move)
   end
 
